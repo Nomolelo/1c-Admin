@@ -39,7 +39,7 @@ var getLocation = function(href) {
     return l;
 };
 
-class ChoiceQuickCreateButton extends Component {
+class SubChoiceQuickCreateButton extends Component {
     state = {
         error: false,
         showDialog: false
@@ -60,7 +60,7 @@ class ChoiceQuickCreateButton extends Component {
 
         // Trigger a submit of our custom quick create form
         // This is needed because our modal action buttons are oustide the form
-        submit('choice-quick-create');
+        submit('subchoice-quick-create');
     };
 
 
@@ -74,12 +74,12 @@ class ChoiceQuickCreateButton extends Component {
 
         // As we want to know when the new post has been created in order to close the modal, we use the
         // dataProvider directly
-        dataProvider(CREATE, 'questions_choice', { data: values })
+        dataProvider(CREATE, 'questions_subchoice', { data: values })
             .then(({ data }) => {
                 // Refresh the choices of the ReferenceInput to ensure our newly created post
                 // always appear, even after selecting another post
                 crudGetMatching(
-                    'questions_choice',
+                    'questions_subchoice',
                     //'questions_question@question_id',
                     { page: 1, perPage: 25 },
                     { field: 'id', order: 'DESC' },
@@ -105,7 +105,8 @@ class ChoiceQuickCreateButton extends Component {
 
         var path = getLocation(window.location.href)
         console.log(String(path))
-        var start = String(path).indexOf('questions_question/') + 'questions_question/'.length
+        var start = String(path).indexOf('questions_subquestion/') + 'questions_subquestion/'.length
+        console.log(start)
         var end = String(path).indexOf('/', start)
         console.log(end)
         var get_id = String(path).substring(start, end)
@@ -120,14 +121,14 @@ class ChoiceQuickCreateButton extends Component {
                     fullWidth
                     open={showDialog}
                     onClose={this.handleCloseClick}
-                    aria-label="Create Choice"
+                    aria-label="Create Sub Choice"
                 >
-                    <DialogTitle>Create Choice</DialogTitle>
+                    <DialogTitle>Create Sub Choice</DialogTitle>
                     <DialogContent>
                         <SimpleForm
                             // We override the redux-form name to avoid collision with the react-admin main form
-                            form="choice-quick-create"
-                            resource="questions_choice"
+                            form="subchoice-quick-create"
+                            resource="questions_subchoice"
                             // We override the redux-form onSubmit prop to handle the submission ourselves
                             onSubmit={this.handleSubmit}
                             // We want no toolbar at all as we have our modal actions
@@ -135,7 +136,7 @@ class ChoiceQuickCreateButton extends Component {
                         >
 
                             {/* <TextInput source="id" /> */}
-                            <NumberInput source="question_id" defaultValue={get_id} disabled/>
+                            <NumberInput source="sub_question_id" defaultValue={get_id} disabled/>
 
                             <TextInput source="choice_text" validate={required()} />
                             {/* <NumberInput source="score" /> */}
@@ -169,7 +170,7 @@ class ChoiceQuickCreateButton extends Component {
 }
 
 const mapStateToProps = state => ({
-    isSubmitting: isSubmitting('choice-quick-create')(state)
+    isSubmitting: isSubmitting('subchoice-quick-create')(state)
 });
 
 const mapDispatchToProps = {
@@ -182,5 +183,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    ChoiceQuickCreateButton
+    SubChoiceQuickCreateButton
 );

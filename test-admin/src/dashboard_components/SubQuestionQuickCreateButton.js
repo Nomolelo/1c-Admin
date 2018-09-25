@@ -23,6 +23,10 @@ import {
     ReferenceInput
 } from 'react-admin';
 
+import {TabbedForm, FormTab, ReferenceManyField, ArrayInput, SimpleFormIterator,
+    DisabledInput, FileInput, FileField} from 'react-admin'
+import RichTextInput from 'ra-input-rich-text';
+
 import IconContentAdd from '@material-ui/icons/Add';
 import IconCancel from '@material-ui/icons/Cancel';
 import Dialog from '@material-ui/core/Dialog';
@@ -39,7 +43,7 @@ var getLocation = function(href) {
     return l;
 };
 
-class ChoiceQuickCreateButton extends Component {
+class SubQuestionQuickCreateButton extends Component {
     state = {
         error: false,
         showDialog: false
@@ -60,7 +64,7 @@ class ChoiceQuickCreateButton extends Component {
 
         // Trigger a submit of our custom quick create form
         // This is needed because our modal action buttons are oustide the form
-        submit('choice-quick-create');
+        submit('subquestion-quick-create');
     };
 
 
@@ -74,12 +78,12 @@ class ChoiceQuickCreateButton extends Component {
 
         // As we want to know when the new post has been created in order to close the modal, we use the
         // dataProvider directly
-        dataProvider(CREATE, 'questions_choice', { data: values })
+        dataProvider(CREATE, 'questions_subquestion', { data: values })
             .then(({ data }) => {
                 // Refresh the choices of the ReferenceInput to ensure our newly created post
                 // always appear, even after selecting another post
                 crudGetMatching(
-                    'questions_choice',
+                    'questions_subquestion',
                     //'questions_question@question_id',
                     { page: 1, perPage: 25 },
                     { field: 'id', order: 'DESC' },
@@ -122,9 +126,10 @@ class ChoiceQuickCreateButton extends Component {
                     onClose={this.handleCloseClick}
                     aria-label="Create Choice"
                 >
-                    <DialogTitle>Create Choice</DialogTitle>
+                    <DialogTitle>Create SubQuestion</DialogTitle>
                     <DialogContent>
-                        <SimpleForm
+
+                        {/* <SimpleForm
                             // We override the redux-form name to avoid collision with the react-admin main form
                             form="choice-quick-create"
                             resource="questions_choice"
@@ -132,14 +137,34 @@ class ChoiceQuickCreateButton extends Component {
                             onSubmit={this.handleSubmit}
                             // We want no toolbar at all as we have our modal actions
                             toolbar={null}
-                        >
+                        > */}
 
-                            {/* <TextInput source="id" /> */}
-                            <NumberInput source="question_id" defaultValue={get_id} disabled/>
+        <TabbedForm 
+        form="subquestion-quick-create"
+        resource="questions_subquestion"
+        // We override the redux-form onSubmit prop to handle the submission ourselves
+        onSubmit={this.handleSubmit}
+        // We want no toolbar at all as we have our modal actions
+        toolbar={null}
+        >
 
-                            <TextInput source="choice_text" validate={required()} />
-                            {/* <NumberInput source="score" /> */}
-                            <SelectInput source="compliance_status" label='Complance Status' choices={[
+            <FormTab label="Question">
+                {/* <ReferenceInput
+                    source="question_id"
+                    reference="questions_question"
+                    allowEmpty
+                    >
+                    <SelectInput optionText="question_text" />
+                </ReferenceInput> */}
+
+                {/* <QuestionReferenceInput 
+                source="question_id"
+                reference="questions_question"
+                allowEmpty
+                /> */}
+
+                <NumberInput source="question_id" defaultValue={get_id} disabled/>
+                <SelectInput source="outcome" label='Outcome' choices={[
                             { id: '1', name: 'Compliant' },
                             { id: '2', name: 'Partially Compliant 75%' },
                             { id: '3', name: 'Partially Compliant 50%' },
@@ -148,10 +173,28 @@ class ChoiceQuickCreateButton extends Component {
                             { id: '6', name: 'Not-Applicable' },
                                                         ]} />
 
-                            <BooleanInput source="action" defaultValue={false} />
-                            <BooleanInput source="comment" defaultValue={false} />  
+                <SelectInput source="choice_type" label='Question Type' choices={[
+                        { id: '1', name: 'Single Choice' },
+                        { id: '2', name: 'Multiple Choice' },
+                        { id: '3', name: 'Free Text' },
+                        { id: '4', name: 'Enter Date' },
+                        { id: '5', name: 'File Upload' },
+                        { id: '6', name: 'Image Upload' },                        
+                                                        ]} />
 
-                        </SimpleForm>
+                <LongTextInput source="question_text" resettable style={{width:'80%'}}/>
+                <LongTextInput source="information" style={{width:'80%'}}/>
+                <LongTextInput source="footnote" resettable style={{width:'60%'}}/>
+
+                <FileInput source="files" label="" placeholder={<p>Upload file</p>}>
+                <FileField source="src" title="title" />
+                </FileInput>
+
+                <BooleanInput source="thumbnail" />
+
+            </FormTab>
+        </TabbedForm>
+
                     </DialogContent>
                     <DialogActions>
                         <SaveButton
@@ -169,7 +212,7 @@ class ChoiceQuickCreateButton extends Component {
 }
 
 const mapStateToProps = state => ({
-    isSubmitting: isSubmitting('choice-quick-create')(state)
+    isSubmitting: isSubmitting('subquestion-quick-create')(state)
 });
 
 const mapDispatchToProps = {
@@ -182,5 +225,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-    ChoiceQuickCreateButton
+    SubQuestionQuickCreateButton
 );

@@ -6,17 +6,20 @@ import { List, Datagrid, TextField, NumberField, EmailField ,
         ReferenceManyField, SingleFieldList, ChipField,
         TabbedShowLayout, Tab, Filter, ReferenceInput, SelectInput,
         ReferenceArrayInput, SelectArrayInput,
-        TabbedForm, FormTab, BooleanField
+        TabbedForm, FormTab, BooleanField, SelectField
              } from 'react-admin';
 
 import {ShowButton, EditButton, Edit, SimpleForm, DisabledInput, TextInput, NumberInput, BooleanInput,
-         ArrayInput, SimpleFormIterator, LongTextInput} from 'react-admin';
+         ArrayInput, SimpleFormIterator, LongTextInput, DeleteButton, FileField, FileInput} from 'react-admin';
 
 import RichTextInput from 'ra-input-rich-text';
 
 import { Create} from 'react-admin';
 import { Show, SimpleShowLayout } from 'react-admin';
 import { parse } from "query-string";
+
+import SubChoiceQuickCreateButton from './dashboard_components/SubChoiceQuickCreateButton';
+import SubQuestionQuickCreateButton from './dashboard_components/SubQuestionQuickCreateButton';
 
 // import QuestionReferenceInput from './dashboard_components/QuestionReferenceInput'
 
@@ -62,25 +65,77 @@ export const SubQuestionShow = (props) => (
     </Show>
 );
 
+const edit_redirect = (basePath, id, data) => `/questions_question/${data.question_id}/2`;
+
 export const SubQuestionEdit = (props) => (
-    <Edit {...props}>
-        <SimpleForm>
-            <DisabledInput source="id" />
-            <TextInput source="question_text" />
-            <NumberInput source="id" />
-            {/* <ReferenceArrayInput reference="questions_subchoice" source="id" target="sub_question_id" allowEmpty >
-                <SelectArrayInput optionText="choice_text" />
-            </ReferenceArrayInput> */}
+    <Edit {...props}  >
+        <TabbedForm  redirect={edit_redirect}>
+            <FormTab label="Sub Questions"  >
+                <DisabledInput source="id" />
+                <SelectInput source="choice_type" label='Question Type' choices={[
+                        { id: '1', name: 'Single Choice' },
+                        { id: '2', name: 'Multiple Choice' },
+                        { id: '3', name: 'Free Text' },
+                        { id: '4', name: 'Enter Date' },
+                        { id: '5', name: 'File Upload' },
+                        { id: '6', name: 'Image Upload' },                        
+                                                        ]} />
 
-            {/* <QuestionReferenceInput 
-                source="question_id"
-                reference="questions_question"
-                allowEmpty
-                /> */}
+                <LongTextInput source="question_text" resettable style={{width:'50%'}}/>
+                <LongTextInput source="information" style={{width:'50%'}}/>
+                <LongTextInput source="footnote" resettable style={{width:'30%'}}/>
 
-        </SimpleForm>
+                <FileInput source="files" label="" placeholder={<p>Upload file</p>}>
+                <FileField source="src" title="title" />
+                </FileInput>
+
+                <BooleanInput source="thumbnail" />
+
+
+            </FormTab>
+
+
+            <FormTab label="Choices">
+                <ReferenceManyField
+                    addLabel={false}
+                    reference="questions_subchoice"
+                    target="sub_question_id"
+                    sort={{ field: "id", order: "ASC" }}
+                >
+                    <Datagrid>
+                        <ChipField source="choice_text" />
+                        {/* <NumberField source="score" /> */}
+                        <SelectField source="compliance_status" label='Complance Status' choices={[
+                            { id: '1', name: 'Compliant' },
+                            { id: '2', name: 'Partially Compliant 75%' },
+                            { id: '3', name: 'Partially Compliant 50%' },
+                            { id: '4', name: 'Partially Compliant 25%' },
+                            { id: '5', name: 'Non-Compliant' },
+                            { id: '6', name: 'Not-Applicable' },
+                                                        ]} />
+
+                        <BooleanField source="action" />
+                        <BooleanField source="comment" />  
+                        <EditButton />
+                        <DeleteButton />
+                    </Datagrid>
+                </ReferenceManyField>
+
+                <SubChoiceQuickCreateButton 
+                // source="id"
+                // reference="questions_subchoice"
+                // target="sub_question_id"
+                // allowEmpty
+                />
+
+            </FormTab>
+
+        </TabbedForm>
     </Edit>
 );
+
+
+
 export const SubQuestionCreate = props => {
 
 // Read the post_id from the location which is injected by React Router and passed to our component by react-admin automatically
@@ -121,16 +176,24 @@ console.log('lol '+question_id)
                 <SelectInput source="choice_type" />
                 <LongTextInput source="information" />
                 <RichTextInput source="footnote" />
-            </FormTab>
+            {/* </FormTab> */}
 
-            <FormTab label="Choices">
+            {/* <FormTab label="Choices"> */}
                 <ReferenceManyField reference="questions_subchoice" target="sub_question_id" addLabel={false}>
                     <ArrayInput >
                     <SimpleFormIterator>
 
                         <TextInput source="choice_text" />
-                        <NumberInput source="score" />
-                        <TextInput source="compliance_status" />
+                        <SelectInput source="compliance_status" label='Complance Status' choices={[
+                            { id: '1', name: 'Compliant' },
+                            { id: '2', name: 'Partially Compliant 75%' },
+                            { id: '3', name: 'Partially Compliant 50%' },
+                            { id: '4', name: 'Partially Compliant 25%' },
+                            { id: '5', name: 'Non-Compliant' },
+                            { id: '6', name: 'Not-Applicable' },
+                                                        ]} />
+
+
                         <BooleanInput source="action" />
                         <BooleanInput source="comment" />  
 

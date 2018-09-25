@@ -9,10 +9,10 @@ import { List, Datagrid, TextField, NumberField, EmailField ,
         TabbedForm, FormTab, BooleanField
              } from 'react-admin';
 
-import {ShowButton, EditButton, Edit, SimpleForm, DisabledInput, TextInput, NumberInput, BooleanInput,
+import {ShowButton, EditButton, DeleteButton, Edit, SimpleForm, DisabledInput, TextInput, NumberInput, BooleanInput,
          ArrayInput, SimpleFormIterator, LongTextInput, DateInput,
          Link, ListButton, RefreshButton, PostShowActions, RichTextfield, LongTextField,
-         ReferenceField
+         ReferenceField, SelectField, FileInput, ImageField, FileField
         } from 'react-admin';
 
 import RichTextInput from 'ra-input-rich-text';
@@ -26,6 +26,12 @@ import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import { Button } from 'react-admin';
 
 import ChoiceReferenceInput from './dashboard_components/ChoiceReferenceInput'
+import ChoiceQuickCreateButton from './dashboard_components/ChoiceQuickCreateButton';
+import SubQuestionQuickCreateButton from './dashboard_components/SubQuestionQuickCreateButton';
+
+import { Chip } from 'material-ui';
+
+
 
 const QuestionFilter = (props) => (
     <Filter {...props}>
@@ -74,9 +80,9 @@ const AddNewSubQuestionButtonCreate = ({ record }) => (
 
 const QuestionShowActionsCreate = ({basePath, data  }) => (
     <CardActions>
-        <ListButton basePath={basePath} />
+        {/* <ListButton basePath={basePath} /> */}
         <RefreshButton />
-        <AddNewSubQuestionButtonCreate record={data} />
+        {/* <AddNewSubQuestionButtonCreate record={data} /> */}
     </CardActions>
 );
 
@@ -90,6 +96,8 @@ export const QuestionList = (props) => (
             <EmailField source="owner_email" />
             <ShowButton />
             <EditButton />
+            <DeleteButton />
+
         </Datagrid>
     </List>
 );
@@ -134,12 +142,28 @@ export const QuestionEdit = (props) => (
         <TabbedForm defaultValue={{ created_at: Date() }}>
             <FormTab label="Question" >
                 <DisabledInput source="id" />
-                <LongTextInput source="question_text" />
-                <DateInput source="created_at" />
-                <TextInput source="owner_email" />
-                <SelectInput source="choice_type" />
-                <LongTextInput source="information" />
-                <RichTextInput source="footnote" />
+                <SelectInput source="choice_type" label='Question Type' choices={[
+                        { id: '1', name: 'Single Choice' },
+                        { id: '2', name: 'Multiple Choice' },
+                        { id: '3', name: 'Free Text' },
+                        { id: '4', name: 'Enter Date' },
+                        { id: '5', name: 'File Upload' },
+                        { id: '6', name: 'Image Upload' },                        
+                                                        ]} />
+
+                <LongTextInput source="question_text" resettable style={{width:'50%'}}/>
+                <LongTextInput source="information" style={{width:'50%'}}/>
+                <LongTextInput source="footnote" resettable style={{width:'30%'}}/>
+
+                <FileInput source="files" label="" placeholder={<p>Upload file</p>}>
+                <FileField source="src" title="title" />
+                </FileInput>
+
+                <BooleanInput source="thumbnail" />
+
+                {/* <DateInput source="created_at" />
+                <TextInput source="owner_email" type="email" /> */}
+
             </FormTab>
 
             {/* <FormTab label="Choices">
@@ -164,22 +188,30 @@ export const QuestionEdit = (props) => (
                     sort={{ field: "id", order: "ASC" }}
                 >
                     <Datagrid>
-                        <TextField source="choice_text" />
-                        <NumberField source="score" />
-                        <TextField source="compliance_status" />
+                        <ChipField source="choice_text" />
+                        {/* <NumberField source="score" /> */}
+                        <SelectField source="compliance_status" label='Complance Status' choices={[
+                            { id: '1', name: 'Compliant' },
+                            { id: '2', name: 'Partially Compliant 75%' },
+                            { id: '3', name: 'Partially Compliant 50%' },
+                            { id: '4', name: 'Partially Compliant 25%' },
+                            { id: '5', name: 'Non-Compliant' },
+                            { id: '6', name: 'Not-Applicable' },
+                                                        ]} />
+
                         <BooleanField source="action" />
                         <BooleanField source="comment" />  
-
                         <EditButton />
+                        <DeleteButton />
                     </Datagrid>
                 </ReferenceManyField>
-                <ChoiceReferenceInput 
-                source="question_id"
-                reference="questions_choice"
-                allowEmpty
+
+                <ChoiceQuickCreateButton 
+                // source="question_id"
+                // reference="questions_choice"
+                // allowEmpty
                 />
 
-                {/* <AddNewCommentButton /> */}
             </FormTab>
 
             <FormTab label="Sub Questions">
@@ -190,47 +222,42 @@ export const QuestionEdit = (props) => (
                     sort={{ field: "question_id", order: "ASC" }}
                 >
                     <Datagrid>
-                        <NumberField source="id" />
-                        <NumberField source="outcome" />
-                {/* <ReferenceManyField
-                        reference='questions_choice'
-                        target="compliance_status"
-                        source="outcome"
-                    >   
-                        <SingleFieldList>
-                            <ChipField source="choice_text" />
-                        </SingleFieldList>
-                </ReferenceManyField> */}
 
+                        <NumberField source="id" />
+
+                        <SelectField source="outcome" label='Outcome' choices={[
+                            { id: '1', name: 'Compliant' },
+                            { id: '2', name: 'Partially Compliant 75%' },
+                            { id: '3', name: 'Partially Compliant 50%' },
+                            { id: '4', name: 'Partially Compliant 25%' },
+                            { id: '5', name: 'Non-Compliant' },
+                            { id: '6', name: 'Not-Applicable' },
+                                                        ]} />
                         <TextField source="question_text" />
+
+                        <SelectField source="choice_type" label='Question Type' choices={[
+                        { id: '1', name: 'Single Choice' },
+                        { id: '2', name: 'Multiple Choice' },
+                        { id: '3', name: 'Free Text' },
+                        { id: '4', name: 'Enter Date' },
+                        { id: '5', name: 'File Upload' },
+                        { id: '6', name: 'Image Upload' },                        
+                                                        ]} />
+
                         <TextField source="owner_email" />
-                        <NumberField source="choice_type" />
-                        <TextField source="information" />
-                        <TextField source="footnote" />
+
+                        {/* <TextField source="information" />
+                        <TextField source="footnote" /> */}
                         <EditButton />
                     </Datagrid>
                 </ReferenceManyField>
-                {/* <AddNewCommentButton /> */}
+
+            <SubQuestionQuickCreateButton 
+                source="question_id"
+                reference="questions_subquestion"
+                allowEmpty
+                />
             </FormTab>
-
-
-            {/* <FormTab label="SubQuestions">
-                <ReferenceManyField reference="questions_subquestion" target="question_id" addLabel={false}>
-                    <ArrayInput >
-                    <SimpleFormIterator>
-
-                        <LongTextInput source="question_text" />
-                        <TextInput source="owner_email" />
-                        <SelectInput source="choice_type" />
-                        <NumberInput source="weight" />
-
-                    </SimpleFormIterator>
-                    
-                    </ArrayInput >
-                </ReferenceManyField>
-
-            </FormTab> */}
-
 
         </TabbedForm>
 
@@ -240,24 +267,40 @@ export const QuestionEdit = (props) => (
 
 
 
-
+const create_redirect = (basePath, id, data) => `/questions_question`;
 var today = new Date();
 export const QuestionCreate = (props) => (
     <Create  {...props}
-    actions={<QuestionShowActionsCreate />}
+    // actions={<QuestionShowActionsCreate />}
     >
-        <TabbedForm defaultValue={{ created_at: Date() }}>
-            <FormTab label="Question" >
-                <NumberInput source="id" />
-                <LongTextInput source="question_text" />
-                <DateInput source="created_at" />
-                <TextInput source="owner_email" />
-                <SelectInput source="choice_type" />
-                <LongTextInput source="information" />
-                <RichTextInput source="footnote" />
-            </FormTab>
+        {/* <TabbedForm 
+        //defaultValue={{ created_at: Date() }}
+        > */}
+            <SimpleForm label="Question" redirect={create_redirect}>
 
-            <FormTab label="Choices">
+                <NumberInput source="id" />
+                <SelectInput source="choice_type" label='Question Type' choices={[
+                        { id: '1', name: 'Single Choice' },
+                        { id: '2', name: 'Multiple Choice' },
+                        { id: '3', name: 'Free Text' },
+                        { id: '4', name: 'Enter Date' },
+                        { id: '5', name: 'File Upload' },
+                        { id: '6', name: 'Image Upload' },                        
+                                                        ]} />
+
+                <LongTextInput source="question_text" resettable style={{width:'50%'}}/>
+                <LongTextInput source="information" style={{width:'50%'}}/>
+                <LongTextInput source="footnote" resettable style={{width:'30%'}}/>
+
+                <FileInput source="files" label="" placeholder={<p>Upload file</p>}>
+                <FileField source="src" title="title" />
+                </FileInput>
+
+                <BooleanInput source="thumbnail" />
+            
+            </SimpleForm>
+
+            {/* <FormTab label="Choices">
                 <ReferenceManyField reference="questions_choice" target="question_id" addLabel={false}>
                     <ArrayInput >
                     <SimpleFormIterator>
@@ -272,28 +315,10 @@ export const QuestionCreate = (props) => (
                     </ArrayInput >
 
                 </ReferenceManyField>
-            </FormTab>
-
-
-            {/* <FormTab label="SubQuestions">
-                <ReferenceManyField reference="questions_subquestion" target="question_id" addLabel={false}>
-                    <ArrayInput >
-                    <SimpleFormIterator>
-
-                        <LongTextInput source="question_text" />
-                        <TextInput source="owner_email" />
-                        <SelectInput source="choice_type" />
-                        <NumberInput source="weight" />
-
-                    </SimpleFormIterator>
-                    
-                    </ArrayInput >
-                </ReferenceManyField>
-
             </FormTab> */}
 
 
-        </TabbedForm>
+        {/* </TabbedForm> */}
     </Create>
 );
 

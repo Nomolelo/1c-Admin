@@ -22,6 +22,20 @@ import MyLocationIcon from '@material-ui/icons/MyLocation';
 
 import authProvider from './authProvider';
 
+// var Make_ID = function () {
+//     // Math.random should be unique because of its seeding algorithm.
+//     // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+//     // after the decimal.
+//     return '_' + Math.random().toString(36).substr(2, 9);
+// }
+
+var make_id = function() {
+    var id = new Date().getUTCMilliseconds();
+
+    return id
+}
+
+console.log(make_id())
 
 const App = () => (
     <Admin title="First Compliance" authProvider={authProvider} dashboard={Dashboard} dataProvider={postgrestClient('http://localhost:3000')}>
@@ -37,8 +51,11 @@ const App = () => (
         <Resource options={{ label: 'Questions' }} icon={QuestionAnswerIcon} name="questions_question" show={QuestionShow} 
         create={QuestionCreate} edit={QuestionEdit} list={QuestionList}  />
         
-        <Resource options={{ label: 'SubQuestions' }} icon={QuestionAnswerIcon} name="questions_subquestion" show={SubQuestionShow} 
-        create={SubQuestionCreate} edit={SubQuestionEdit} list={SubQuestionList}  />
+        <Resource name="questions_subquestion" 
+        //options={{ label: 'SubQuestions' }} icon={QuestionAnswerIcon}  show={SubQuestionShow} 
+        //create={SubQuestionCreate} list={SubQuestionList}
+        edit={SubQuestionEdit}   
+        />
 
         <Resource options={{ label: 'Users' }} name="auth_user" icon={UserIcon} list={UserList}  />
 
