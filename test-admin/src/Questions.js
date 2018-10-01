@@ -12,7 +12,8 @@ import { List, Datagrid, TextField, NumberField, EmailField ,
 import {ShowButton, EditButton, DeleteButton, Edit, SimpleForm, DisabledInput, TextInput, NumberInput, BooleanInput,
          ArrayInput, SimpleFormIterator, LongTextInput, DateInput,
          Link, ListButton, RefreshButton, PostShowActions, RichTextfield, LongTextField,
-         ReferenceField, SelectField, FileInput, ImageField, FileField
+         ReferenceField, SelectField, FileInput, ImageField, FileField, 
+         CloneButton, ArrayField
         } from 'react-admin';
 
 import RichTextInput from 'ra-input-rich-text';
@@ -30,6 +31,22 @@ import ChoiceQuickCreateButton from './dashboard_components/ChoiceQuickCreateBut
 import SubQuestionQuickCreateButton from './dashboard_components/SubQuestionQuickCreateButton';
 
 import { Chip } from 'material-ui';
+
+
+// var ids=[]
+// function yes() {
+// (async() => {
+//     try {
+//       var response = await fetch('http://127.0.0.1:8000/api');
+//       var data = await response.json();
+//       return data
+//     } catch (e) {
+//         console.log("Booo")
+//       }
+//     })();
+// }
+// console.log(yes())
+
 
 
 
@@ -93,10 +110,18 @@ export const QuestionList = (props) => (
         <Datagrid >
             <NumberField source="id" />
             <TextField source="question_text" />
+
+            {/* <ArrayField source="audits_array2">
+                <SingleFieldList>
+                    <ChipField source="audits_array2" />
+                </SingleFieldList>
+            </ArrayField> */}
+
             <EmailField source="owner_email" />
             <ShowButton />
             <EditButton />
-            <DeleteButton />
+            <CloneButton />
+            {/* <DeleteButton /> */}
 
         </Datagrid>
     </List>
@@ -134,151 +159,70 @@ export const QuestionShow = (props) => (
 
 
 
-export const QuestionEdit = (props) => (
-    <Edit {...props}
-    actions={<QuestionShowActionsCreate />}
-    title = 'Edit Questions'
-    >
-        <TabbedForm defaultValue={{ created_at: Date() }}>
-            <FormTab label="Question" >
-                <DisabledInput source="id" />
-                <SelectInput source="choice_type" label='Question Type' choices={[
-                        { id: '1', name: 'Single Choice' },
-                        { id: '2', name: 'Multiple Choice' },
-                        { id: '3', name: 'Free Text' },
-                        { id: '4', name: 'Enter Date' },
-                        { id: '5', name: 'File Upload' },
-                        { id: '6', name: 'Image Upload' },                        
-                                                        ]} />
-
-                <LongTextInput source="question_text" resettable style={{width:'50%'}}/>
-                <LongTextInput source="information" style={{width:'50%'}}/>
-                <LongTextInput source="footnote" resettable style={{width:'30%'}}/>
-
-                <FileInput source="files" label="" placeholder={<p>Upload file</p>}>
-                <FileField source="src" title="title" />
-                </FileInput>
-
-                <BooleanInput source="thumbnail" />
-
-                {/* <DateInput source="created_at" />
-                <TextInput source="owner_email" type="email" /> */}
-
-            </FormTab>
-
-            {/* <FormTab label="Choices">
-                <ReferenceManyField reference="questions_choice" source="id" target="question_id" addLabel={false}>
-                    <ArrayInput >
-                    <SimpleFormIterator>
-                        <TextInput source="choice_text" />
-                        <NumberInput source="score" />
-                        <TextInput source="compliance_status" />
-                        <BooleanInput source="action" />
-                        <BooleanInput source="comment" />  
-                    </SimpleFormIterator>
-                    </ArrayInput >
-                </ReferenceManyField>
-            </FormTab> */}
-
-            <FormTab label="Choices">
-                <ReferenceManyField
-                    addLabel={false}
-                    reference="questions_choice"
-                    target="question_id"
-                    sort={{ field: "id", order: "ASC" }}
-                >
-                    <Datagrid>
-                        <ChipField source="choice_text" />
-                        {/* <NumberField source="score" /> */}
-                        <SelectField source="compliance_status" label='Complance Status' choices={[
-                            { id: '1', name: 'Compliant' },
-                            { id: '2', name: 'Partially Compliant 75%' },
-                            { id: '3', name: 'Partially Compliant 50%' },
-                            { id: '4', name: 'Partially Compliant 25%' },
-                            { id: '5', name: 'Non-Compliant' },
-                            { id: '6', name: 'Not-Applicable' },
-                                                        ]} />
-
-                        <BooleanField source="action" />
-                        <BooleanField source="comment" />  
-                        <EditButton />
-                        <DeleteButton />
-                    </Datagrid>
-                </ReferenceManyField>
-
-                <ChoiceQuickCreateButton 
-                // source="question_id"
-                // reference="questions_choice"
-                // allowEmpty
-                />
-
-            </FormTab>
-
-            <FormTab label="Sub Questions">
-                <ReferenceManyField
-                    addLabel={false}
-                    reference="questions_subquestion"
-                    target="question_id"
-                    sort={{ field: "question_id", order: "ASC" }}
-                >
-                    <Datagrid>
-
-                        <NumberField source="id" />
-
-                        <SelectField source="outcome" label='Outcome' choices={[
-                            { id: '1', name: 'Compliant' },
-                            { id: '2', name: 'Partially Compliant 75%' },
-                            { id: '3', name: 'Partially Compliant 50%' },
-                            { id: '4', name: 'Partially Compliant 25%' },
-                            { id: '5', name: 'Non-Compliant' },
-                            { id: '6', name: 'Not-Applicable' },
-                                                        ]} />
-                        <TextField source="question_text" />
-
-                        <SelectField source="choice_type" label='Question Type' choices={[
-                        { id: '1', name: 'Single Choice' },
-                        { id: '2', name: 'Multiple Choice' },
-                        { id: '3', name: 'Free Text' },
-                        { id: '4', name: 'Enter Date' },
-                        { id: '5', name: 'File Upload' },
-                        { id: '6', name: 'Image Upload' },                        
-                                                        ]} />
-
-                        <TextField source="owner_email" />
-
-                        {/* <TextField source="information" />
-                        <TextField source="footnote" /> */}
-                        <EditButton />
-                    </Datagrid>
-                </ReferenceManyField>
-
-            <SubQuestionQuickCreateButton 
-                source="question_id"
-                reference="questions_subquestion"
-                allowEmpty
-                />
-            </FormTab>
-
-        </TabbedForm>
-
-
-    </Edit>
-);
 
 
 
 const create_redirect = (basePath, id, data) => `/questions_question`;
 var today = new Date();
-export const QuestionCreate = (props) => (
+// export const QuestionCreate = (props) => (
+
+class QuestionCreate extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+              max_id:'',
+              questions:[],
+              audits:[]
+          }
+        }
+    
+
+        componentWillMount() {
+            (async() => {
+                try {
+            var response = await fetch('http://127.0.0.1:3000/questions_question');
+            var data = await response.json();
+            var x = await data.map(text => text.id).sort()
+            var max = Math.max(...x)
+            this.setState({max_id: max})
+
+            var response2 = await fetch('http://127.0.0.1:3000/questions_audit');
+            var audit_data = await response2.json();
+            console.log(audit_data)
+            this.setState({audits: audit_data})
+
+        } 
+        catch (e) {
+            console.log("Booo")
+          }
+        })();
+    }
+      
+        render() {
+          const {
+            props,
+          } = this;
+
+          console.log(this.state.max_id)
+          var new_id = this.state.max_id+1
+      
+    return (
+
     <Create  {...props}
     // actions={<QuestionShowActionsCreate />}
     >
         {/* <TabbedForm 
         //defaultValue={{ created_at: Date() }}
         > */}
-            <SimpleForm label="Question" redirect={create_redirect}>
+            <SimpleForm label="Question" redirect={create_redirect} >
 
-                <NumberInput source="id" />
+                <DisabledInput source="id" defaultValue={new_id} />
+
+                <SelectArrayInput label="Audit" source="audits_array2" optionText="audit_name" choices={
+                        this.state.audits
+                        } />
+
+
                 <SelectInput source="choice_type" label='Question Type' choices={[
                         { id: '1', name: 'Single Choice' },
                         { id: '2', name: 'Multiple Choice' },
@@ -296,7 +240,7 @@ export const QuestionCreate = (props) => (
                 <FileField source="src" title="title" />
                 </FileInput>
 
-                <BooleanInput source="thumbnail" />
+                <BooleanInput source="thumbnail" defaultValue={false} />
             
             </SimpleForm>
 
@@ -322,5 +266,6 @@ export const QuestionCreate = (props) => (
     </Create>
 );
 
+}}
 
-
+export default QuestionCreate;

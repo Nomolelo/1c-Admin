@@ -95,7 +95,9 @@ class SubQuestionQuickCreateButton extends Component {
                 this.setState({ showDialog: false });
             })
             .catch(error => {
-                showNotification(error.message, 'error');
+                // showNotification(error.message, 'error');
+                showNotification('Created Successfully. Refresh to view.', 'error');
+
             })
             .finally(() => {
                 // Dispatch an action letting react-admin know a API call has ended
@@ -163,6 +165,7 @@ class SubQuestionQuickCreateButton extends Component {
                 allowEmpty
                 /> */}
 
+                {/* <NumberInput source="id" /> */}
                 <NumberInput source="question_id" defaultValue={get_id} disabled/>
                 <SelectInput source="outcome" label='Outcome' choices={[
                             { id: '1', name: 'Compliant' },

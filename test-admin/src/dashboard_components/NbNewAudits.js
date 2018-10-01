@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import { translate } from 'react-admin';
 
 import CardIcon from './CardIcon';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
 
 const styles = {
     main: {
@@ -23,6 +25,8 @@ const styles = {
 };
 
 const NbNewOrders = ({ value, translate, classes }) => (
+    <Button style={{width:'300px'}} href='http://localhost:3001/#/questions_audit' >
+
     <div className={classes.main}>
         <CardIcon Icon={MyLocationIcon} bgColor="#ff9800" />
         <Card className={classes.card}>
@@ -33,8 +37,13 @@ const NbNewOrders = ({ value, translate, classes }) => (
             <Typography variant="headline" component="h2">
                 {value}
             </Typography>
+
         </Card>
+
     </div>
+    </Button >
+
+
 );
 
 export default translate(withStyles(styles)(NbNewOrders));

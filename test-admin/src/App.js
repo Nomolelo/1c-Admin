@@ -9,10 +9,15 @@ import { Create} from 'react-admin';
 import { Show, SimpleShowLayout } from 'react-admin';
 
 import Dashboard from './Dashboards';
-import { QuestionList, QuestionEdit, QuestionCreate, QuestionShow } from './Questions';
+import { QuestionList, QuestionShow } from './Questions';
+import QuestionCreate from './Questions';
+import QuestionEdit from './Questions_Edit';
+
 import { SubQuestionList, SubQuestionEdit, SubQuestionCreate, SubQuestionShow } from './SubQuestions';
 
-import { AuditList, AuditEdit, AuditCreate } from './Audits';
+import { AuditList, AuditCreate } from './Audits';
+import AuditEdit from './Audits';
+
 import { UserList } from './users';
 
 import PostIcon from '@material-ui/icons/Book';

@@ -6,7 +6,8 @@ import {ChipField, ReferenceManyField, ReferenceField, CommentGrid,Avatar, DateF
         TextField, NumberField, EmailField } from 'react-admin';
 
 import {SingleFieldList, ShowButton, EditButton, Edit, SimpleForm, DisabledInput, DateInput, 
-        TextInput, NumberInput, SelectArrayInput, SelectInput, ReferenceInput, ReferenceArrayInput } from 'react-admin';
+        TextInput, NumberInput, SelectArrayInput, SelectInput, ReferenceInput, ReferenceArrayInput,
+        DeleteButton, SelectField     } from 'react-admin';
 import { Create} from 'react-admin';
 import { Show, SimpleShowLayout } from 'react-admin';
 import PersonIcon from '@material-ui/icons/Person';
@@ -18,6 +19,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
+
+import AuditQuestionLinkButton from './dashboard_components/AuditQuestionLinkButton';
 
 var images = [
     'https://images.unsplash.com/photo-1534259362708-6d0c72ccdf3e?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1600&h=900&fit=crop&ixid=eyJhcHBfaWQiOjF9&s=230ae279dbd51cf79fc5664d7033df81',
@@ -37,6 +40,7 @@ var desc = ['EU Data Protection Regulation',
 
 const cardStyle = {
     width: 300,
+    height: 400,
     minHeight: 300,
     margin: '0.5em',
     display: 'inline-block',
@@ -59,22 +63,24 @@ const AuditGrid = ({ ids, data, basePath }) => (
             style={{height:140, width:'100%'}}
             //image="src/images/para.jpg"
             image={images[index]}
-            title="Contemplative Reptile"
+            title="First Compliance"
             />
 
             <CardContent>
                 <TextField record={data[id]} source="audit_name" />
             </CardContent>
             <CardContent>
-                {desc[index]}&nbsp;
-                <ReferenceManyField reference="questions_audit_question" target="audit_id" label="Question" resource="questions_audit" record={data[id]}  basePath={basePath}>
+                <TextField record={data[id]} source="description" />
+                {/* {desc[index]}&nbsp; */}
+                {/* <ReferenceManyField reference="questions_audit_question" target="audit_id" label="Question" resource="questions_audit" record={data[id]}  basePath={basePath}>
                 <SingleFieldList>
                     <ChipField source="question_id" />
                 </SingleFieldList>
-                </ReferenceManyField>
+                </ReferenceManyField> */}
             </CardContent>
             <CardActions style={{ textAlign: 'right' }}>
                 <EditButton resource="questions_audit" basePath={basePath} record={data[id]} />
+                <DeleteButton resource="questions_audit" basePath={basePath} record={data[id]} />
             </CardActions> 
         </Card>
     )}
@@ -94,30 +100,77 @@ export const AuditList = (props) => (
 )
 
 
-export const AuditEdit = (props) => (
-    <Edit {...props}>
+
+class AuditEdit extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+            questions:[]
+      }
+    }
+
+
+    componentWillMount() {
+        (async() => {
+            try {
+        var response = await fetch('http://127.0.0.1:3000/questions_question');
+        var data = await response.json();
+        console.log(data)
+        this.setState({questions: data})
+    } 
+    catch (e) {
+        console.log("Booo")
+      }
+    })();
+}
+  
+    render() {
+      const {
+        props,
+      } = this;
+  
+return (
+
+    <Edit  {...props}>
+
+{/* // export const AuditEdit = (props) => (
+//     <Edit {...props}> */}
         <SimpleForm>
             <DisabledInput source="id" />
             <TextInput source="audit_name" />
             <DateInput source="start_date" />
+            <DateInput source="end_date" />
+            <TextInput source="description" />
+            <TextInput source="owner" />
 
-            <ReferenceManyField reference="questions_audit_question" target="audit_id" source="id" >
-                        {/* <SelectArrayInput optionText="question_id" />  */}
-                <SingleFieldList>    
-                        <ChipField source="question_id" />
-                </SingleFieldList>
-
+            <ReferenceManyField label="" reference="questions_audit_question" source="id" target="audit_id"  >
+            <Datagrid>
+            <SelectField label="Questions" source="question_id" optionText="question_text" 
+                                                choices={this.state.questions} />
+            
+            <ShowButton />
+            </Datagrid>
             </ReferenceManyField>
+            <AuditQuestionLinkButton/>
+
         </SimpleForm>
     </Edit>
 );
+}}
+export default AuditEdit;
+
+
+const create_redirect = (basePath, id, data) => `/questions_audit`;
 
 export const AuditCreate = (props) => (
     <Create {...props}>
-        <SimpleForm>
+        <SimpleForm redirect={create_redirect}>
             <NumberInput source="id" />
             <TextInput source="audit_name" />
             <DateInput source="start_date" />
+            <DateInput source="end_date" />
+            <TextInput source="description" />
+            <TextInput source="owner" />
 
             {/* <ReferenceManyField reference="questions_audit_question" target="audit_id" source="id" >
                 <SingleFieldList>    

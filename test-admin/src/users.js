@@ -1,6 +1,8 @@
 // in src/users.js
 import React from 'react';
-import { BooleanField, DateField, List, Datagrid, EmailField, TextField } from 'react-admin';
+import { BooleanField, DateField, List, Datagrid, EmailField, TextField, ImageField } from 'react-admin';
+
+// { picture: { url: 'cover.jpg', title: 'Larry Cover (French pun intended)' } }
 
 export const UserList = (props) => (
     <List title="Users" {...props}>

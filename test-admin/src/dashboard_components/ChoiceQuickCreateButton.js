@@ -39,6 +39,8 @@ var getLocation = function(href) {
     return l;
 };
 
+const create_redirect = (basePath, id, data) => `/questions_question`;
+
 class ChoiceQuickCreateButton extends Component {
     state = {
         error: false,
@@ -66,7 +68,7 @@ class ChoiceQuickCreateButton extends Component {
 
     
     handleSubmit = values => {
-        const { change, fetchStart, fetchEnd, showNotification } = this.props;
+        const { change, fetchStart, fetchEnd, showNotification ,crudGetMatching, REDUX_FORM_NAME} = this.props;
         console.log('test')
 
         // Dispatch an action letting react-admin know a API call is ongoing
@@ -79,19 +81,20 @@ class ChoiceQuickCreateButton extends Component {
                 // Refresh the choices of the ReferenceInput to ensure our newly created post
                 // always appear, even after selecting another post
                 crudGetMatching(
-                    'questions_choice',
-                    //'questions_question@question_id',
+                    'questions_question',
+                    'questions_choice@id',
                     { page: 1, perPage: 25 },
                     { field: 'id', order: 'DESC' },
                     {}
                 );
 
                 // Update the main react-admin form (in this case, the comments creation form)
-                change(REDUX_FORM_NAME, 'id', data.id);
+                change(REDUX_FORM_NAME, 'question_id', data.id);
                 this.setState({ showDialog: false });
             })
             .catch(error => {
-                showNotification(error.message, 'error');
+                // showNotification(error.message, 'error');
+                showNotification('Created Successfully. Refresh to view.', 'error');
             })
             .finally(() => {
                 // Dispatch an action letting react-admin know a API call has ended
@@ -132,9 +135,11 @@ class ChoiceQuickCreateButton extends Component {
                             onSubmit={this.handleSubmit}
                             // We want no toolbar at all as we have our modal actions
                             toolbar={null}
+                            redirect='http://localhost:3001/#/questions_question/4'
                         >
 
                             {/* <TextInput source="id" /> */}
+                            {/* <NumberInput source='id' /> */}
                             <NumberInput source="question_id" defaultValue={get_id} disabled/>
 
                             <TextInput source="choice_text" validate={required()} />
