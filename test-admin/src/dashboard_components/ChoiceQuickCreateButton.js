@@ -39,7 +39,7 @@ var getLocation = function(href) {
     return l;
 };
 
-const create_redirect = (basePath, id, data) => `/questions_question`;
+const create_redirect = (basePath, id, data) => `/questions_question/4`;
 
 class ChoiceQuickCreateButton extends Component {
     state = {
@@ -135,7 +135,8 @@ class ChoiceQuickCreateButton extends Component {
                             onSubmit={this.handleSubmit}
                             // We want no toolbar at all as we have our modal actions
                             toolbar={null}
-                            redirect='http://localhost:3001/#/questions_question/4'
+                            // redirect='http://localhost:3001/#/questions_question/4'
+                            redirect={create_redirect}
                         >
 
                             {/* <TextInput source="id" /> */}

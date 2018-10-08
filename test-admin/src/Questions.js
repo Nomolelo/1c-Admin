@@ -33,21 +33,9 @@ import SubQuestionQuickCreateButton from './dashboard_components/SubQuestionQuic
 import { Chip } from 'material-ui';
 
 
-// var ids=[]
-// function yes() {
-// (async() => {
-//     try {
-//       var response = await fetch('http://127.0.0.1:8000/api');
-//       var data = await response.json();
-//       return data
-//     } catch (e) {
-//         console.log("Booo")
-//       }
-//     })();
-// }
-// console.log(yes())
 
-
+var api_host = 'http://54.72.140.182:3000'
+// var api_host = 'http://localhost:3000'
 
 
 const QuestionFilter = (props) => (
@@ -180,13 +168,13 @@ class QuestionCreate extends React.Component {
         componentWillMount() {
             (async() => {
                 try {
-            var response = await fetch('http://127.0.0.1:3000/questions_question');
+            var response = await fetch(api_host+'/questions_question');
             var data = await response.json();
             var x = await data.map(text => text.id).sort()
             var max = Math.max(...x)
             this.setState({max_id: max})
 
-            var response2 = await fetch('http://127.0.0.1:3000/questions_audit');
+            var response2 = await fetch(api_host+'/questions_audit');
             var audit_data = await response2.json();
             console.log(audit_data)
             this.setState({audits: audit_data})
@@ -197,7 +185,7 @@ class QuestionCreate extends React.Component {
           }
         })();
     }
-      
+
         render() {
           const {
             props,
@@ -216,12 +204,12 @@ class QuestionCreate extends React.Component {
         > */}
             <SimpleForm label="Question" redirect={create_redirect} >
 
+                {/* <NumberInput source="id" defaultValue={new_id} /> */}
                 <DisabledInput source="id" defaultValue={new_id} />
 
                 <SelectArrayInput label="Audit" source="audits_array2" optionText="audit_name" choices={
                         this.state.audits
                         } />
-
 
                 <SelectInput source="choice_type" label='Question Type' choices={[
                         { id: '1', name: 'Single Choice' },

@@ -22,6 +22,11 @@ import CardMedia from '@material-ui/core/CardMedia';
 
 import AuditQuestionLinkButton from './dashboard_components/AuditQuestionLinkButton';
 
+
+var api_host = 'http://54.72.140.182:3000'
+// var api_host = 'http://localhost:3000'
+
+
 var images = [
     'https://images.unsplash.com/photo-1534259362708-6d0c72ccdf3e?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1600&h=900&fit=crop&ixid=eyJhcHBfaWQiOjF9&s=230ae279dbd51cf79fc5664d7033df81',
     'https://images.unsplash.com/photo-1534535091711-71b06c129856?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1600&h=900&fit=crop&ixid=eyJhcHBfaWQiOjF9&s=87281f428e5bb02cb58585c9d66d7205',
@@ -113,7 +118,11 @@ class AuditEdit extends React.Component {
     componentWillMount() {
         (async() => {
             try {
-        var response = await fetch('http://127.0.0.1:3000/questions_question');
+        var response = await fetch(api_host+'/questions_question', {
+            headers: {
+                'Content-Range': 'questions_question 0-24/319',
+                'Access-Control-Expose-Headers': 'Content-Range'
+            }});
         var data = await response.json();
         console.log(data)
         this.setState({questions: data})

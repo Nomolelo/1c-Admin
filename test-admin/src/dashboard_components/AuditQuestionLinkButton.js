@@ -37,6 +37,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import dataProvider from '../dataProvider';
 import { parse } from "query-string";
 
+
+var api_host = 'http://54.72.140.182:3000'
+
 var getLocation = function(href) {
     var l = document.createElement("a");
     l.href = href;
@@ -55,7 +58,7 @@ class AuditQuestionLinkButton extends Component {
     componentWillMount() {
         (async() => {
             try {
-        var response = await fetch('http://127.0.0.1:3000/questions_question');
+        var response = await fetch(api_host+'/questions_question');
         var data = await response.json();
         console.log(data)
         this.setState({questions: data})

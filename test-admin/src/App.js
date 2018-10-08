@@ -40,10 +40,14 @@ var make_id = function() {
     return id
 }
 
+var api_host = 'http://54.72.140.182:3000'
+// var api_host = 'http://localhost:3000'
+
 console.log(make_id())
 
 const App = () => (
-    <Admin title="First Compliance" authProvider={authProvider} dashboard={Dashboard} dataProvider={postgrestClient('http://localhost:3000')}>
+    <Admin title="First Compliance" authProvider={authProvider} dashboard={Dashboard} 
+                                    dataProvider={postgrestClient(api_host)}>
        
         <Resource  name="questions_choice"  />
         <Resource  name="questions_audit_question"  />

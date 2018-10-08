@@ -36,21 +36,8 @@ import QuestionQuickPreviewButton from './dashboard_components/QuestionQuickPrev
 import { Fragment } from 'react';
 import { Field } from 'redux-form';
 
-// var ids=[]
-// function yes() {
-// (async() => {
-//     try {
-//       var response = await fetch('http://127.0.0.1:8000/api');
-//       var data = await response.json();
-//       return data
-//     } catch (e) {
-//         console.log("Booo")
-//       }
-//     })();
-// }
-// console.log(yes())
 
-
+var api_host = 'http://54.72.140.182:3000'
 
 
 
@@ -119,7 +106,7 @@ class QuestionEdit extends React.Component {
         componentWillMount() {
             (async() => {
                 try {
-            var response = await fetch('http://127.0.0.1:3000/questions_audit');
+            var response = await fetch(api_host+'/questions_audit');
             var data = await response.json();
             //var x = await data.map(text => text.id).sort()
             //var max = Math.max(...x)
