@@ -1,7 +1,7 @@
 // in src/App.js
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
-import postgrestClient from 'aor-postgrest-client';
+// import postgrestClient from 'aor-postgrest-client';
 import { List, Datagrid, TextField, NumberField, EmailField ,
         ReferenceManyField, SingleFieldList, ChipField,
         TabbedShowLayout, Tab, Filter, ReferenceInput, SelectInput,
@@ -13,7 +13,7 @@ import {ShowButton, EditButton, DeleteButton, Edit, SimpleForm, DisabledInput, T
          ArrayInput, SimpleFormIterator, LongTextInput, DateInput,
          Link, ListButton, RefreshButton, PostShowActions, RichTextfield, LongTextField,
          ReferenceField, SelectField, FileInput, ImageField, FileField, 
-         CloneButton, ArrayField
+         CloneButton, ArrayField, ReferenceArrayField
         } from 'react-admin';
 
 import RichTextInput from 'ra-input-rich-text';
@@ -99,13 +99,13 @@ export const QuestionList = (props) => (
             <NumberField source="id" />
             <TextField source="question_text" />
 
-            {/* <ArrayField source="audits_array2">
+            <ReferenceArrayField label="Audits" reference="questions_audit" source="audits_array2">
                 <SingleFieldList>
-                    <ChipField source="audits_array2" />
+                    <ChipField source="audit_name" />
                 </SingleFieldList>
-            </ArrayField> */}
+            </ReferenceArrayField>
 
-            <EmailField source="owner_email" />
+            {/* <EmailField source="owner_email" /> */}
             <ShowButton />
             <EditButton />
             <CloneButton />

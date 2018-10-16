@@ -35,7 +35,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 
 import dataProvider from '../dataProvider';
-import { parse } from "query-string";
+// import { parse } from "query-string";
 
 
 var api_host = 'http://54.72.140.182:3000'

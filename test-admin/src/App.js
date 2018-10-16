@@ -1,7 +1,9 @@
 // in src/App.js
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
-import postgrestClient from 'aor-postgrest-client';
+// import postgrestClient from 'aor-postgrest-client';
+import postgrestClient from './postgres_driver';
+
 import { List, Datagrid, TextField, NumberField, EmailField } from 'react-admin';
 
 import { ShowButton, EditButton, Edit, SimpleForm, DisabledInput, TextInput, NumberInput } from 'react-admin';
@@ -19,6 +21,7 @@ import { AuditList, AuditCreate } from './Audits';
 import AuditEdit from './Audits';
 
 import { UserList } from './users';
+import UserCreate from './users';
 
 import PostIcon from '@material-ui/icons/Book';
 import UserIcon from '@material-ui/icons/People';
@@ -26,6 +29,12 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 
 import authProvider from './authProvider';
+// import {Layout} from 'react-admin';
+import AppBar from 'material-ui/AppBar';
+import * as Colors from 'material-ui/styles/colors';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
 
 // var Make_ID = function () {
 //     // Math.random should be unique because of its seeding algorithm.
@@ -40,15 +49,33 @@ var make_id = function() {
     return id
 }
 
+
+const muiTheme = getMuiTheme({
+    palette: {
+      textColor: Colors.darkBlack,
+      primary1Color: Colors.white,
+      primary2Color: Colors.indigo700,
+      accent1Color: Colors.redA200,
+      pickerHeaderColor: Colors.darkBlack,
+    },
+    appBar: {
+      height: 60,
+    },
+  });
+  
 var api_host = 'http://54.72.140.182:3000'
 // var api_host = 'http://localhost:3000'
+
+//test-admin andrewmcgeough$ docker run -it --rm -p 5000:5000 --name react-demo react-docker
 
 console.log(make_id())
 
 const App = () => (
-    <Admin title="First Compliance" authProvider={authProvider} dashboard={Dashboard} 
-                                    dataProvider={postgrestClient(api_host)}>
-       
+    <Admin title="First Compliance"
+            // appLayout={Layout} 
+            authProvider={authProvider} dashboard={Dashboard} 
+            dataProvider={postgrestClient(api_host)}>
+
         <Resource  name="questions_choice"  />
         <Resource  name="questions_audit_question"  />
         <Resource  name="questions_subchoice"  />
@@ -66,7 +93,7 @@ const App = () => (
         edit={SubQuestionEdit}   
         />
 
-        <Resource options={{ label: 'Users' }} name="auth_user" icon={UserIcon} list={UserList}  />
+        <Resource options={{ label: 'Users' }} name="questions_user" icon={UserIcon} list={UserList} create={UserCreate} />
 
 
     </Admin>

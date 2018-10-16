@@ -1,7 +1,7 @@
 // in src/App.js
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
-import postgrestClient from 'aor-postgrest-client';
+// import postgrestClient from 'aor-postgrest-client';
 import { List, Datagrid, TextField, NumberField, EmailField ,
         ReferenceManyField, SingleFieldList, ChipField,
         TabbedShowLayout, Tab, Filter, ReferenceInput, SelectInput,

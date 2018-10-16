@@ -31,7 +31,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 
 import dataProvider from '../dataProvider';
-import { parse } from "query-string";
+// import { parse } from "query-string";
 
 var getLocation = function(href) {
     var l = document.createElement("a");

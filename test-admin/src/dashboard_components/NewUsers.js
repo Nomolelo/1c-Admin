@@ -59,7 +59,7 @@ const NewUsers = ({ visitors = [], nb, translate, classes }) => (
                 {visitors.map(record => (
                     <ListItem
                         button
-                        to={`/auth_user`}
+                        to={`/questions_user`}
                         component={Link}
                         key={record.id}
                     >
