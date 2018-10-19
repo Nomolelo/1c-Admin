@@ -188,6 +188,19 @@ class SubQuestionQuickCreateButton extends Component {
                 <LongTextInput source="question_text" resettable style={{width:'80%'}}/>
                 <LongTextInput source="information" style={{width:'80%'}}/>
                 <LongTextInput source="footnote" resettable style={{width:'60%'}}/>
+                <SelectInput source="weight" choices={[
+                                    { id: 0, name:0},
+                                    { id: 1, name:1},
+                                    { id: 2, name:2},
+                                    { id: 3, name:3},
+                                    { id: 4, name:4},
+                                    { id: 5, name:5},
+                                    { id: 6, name:6},
+                                    { id: 7, name:7},
+                                    { id: 8, name:8},
+                                    { id: 9, name:9},
+                                    { id: 10, name:10}
+                                ]} />
 
                 <FileInput source="files" label="" placeholder={<p>Upload file</p>}>
                 <FileField source="src" title="title" />

@@ -14,6 +14,8 @@ import { translate } from 'react-admin';
 
 import CardIcon from './CardIcon';
 
+
+
 const styles = theme => ({
     main: {
         flex: '1',
@@ -59,12 +61,13 @@ const NewUsers = ({ visitors = [], nb, translate, classes }) => (
                 {visitors.map(record => (
                     <ListItem
                         button
-                        to={`/questions_user`}
+                        to={`/questions_user/${record.id}`}
                         component={Link}
                         key={record.id}
                     >
                         <Avatar
-                            src={`${record.avatar}?size=32x32`}
+                            // src={`${record.avatar}?size=32x32`}
+                            src={`https://robohash.org/${record.id}.png`}
                             className={classes.avatar}
                         />
                         <ListItemText

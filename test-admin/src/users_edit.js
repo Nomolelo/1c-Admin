@@ -1,54 +1,23 @@
 // in src/users.js
 import React from 'react';
 import { BooleanField, DateField, List, Datagrid, EmailField, TextField, ImageField,
-    Create, SimpleForm, TextInput, DateInput, BooleanInput, NumberInput, SelectArrayInput,
-    EditButton, ReferenceArrayField, SingleFieldList, ChipField, Filter} from 'react-admin';
+    Edit, SimpleForm, TextInput, DateInput, BooleanInput, NumberInput, SelectArrayInput
+        } from 'react-admin';
 import Avatar from '@material-ui/core/Avatar';
 
 // { picture: { url: 'cover.jpg', title: 'Larry Cover (French pun intended)' } }
 var api_host = 'http://54.72.140.182:3000'
 
-const UserFilter = (props) => (
-    <Filter {...props} >
-        <TextInput label="Search User" source="username" alwaysOn />
 
-    </Filter>
-);
-
-export const UserList = (props) => (
-    <List title="Users" {...props} filters={<UserFilter/>}>
-        <Datagrid>
-            {/* <TextField source="id" /> */}
-            {/* <Avatar
-            // src={`${record.avatar}?size=32x32`}
-            src={`https://robohash.org/1.png`}
-            // className={classes.avatar}
-            /> */}
-            <TextField source="username" />
-            {/* <DateField source="last_login" /> */}
-            {/* <DateField source="created_at" /> */}
-            <DateField source="start_date" />
-            <TextField source="first_name" />
-            <TextField source="last_name" />
-            <BooleanField source="administrator" />
-            <BooleanField source="is_active" />
-
-
-
-            <EditButton />
-
-        </Datagrid>
-    </List>
-);
-
-
-
+const Username = ({ record }) => {
+    return <span>{record ? `${record.first_name} ${record.last_name}` : ''}</span>;
+};
 
 const create_redirect = (basePath, id, data) => `/questions_user`;
 var today = new Date();
 // export const QuestionCreate = (props) => (
 
-class UserCreate extends React.Component {
+class UserEdit extends React.Component {
         constructor(props) {
           super(props);
           this.state = {
@@ -89,9 +58,11 @@ class UserCreate extends React.Component {
           var new_id = this.state.max_id+1
       
     return (
-<Create {...props}>
+<Edit {...props}
+    title={<Username/>}
+    >
         <SimpleForm redirect={create_redirect}>
-            <NumberInput source="id" defaultValue={new_id} disabled={true}/>
+            <NumberInput source="id" disabled={true}/>
             <TextInput source="username" />
             <TextInput source="first_name" />
             <TextInput source="last_name" />
@@ -103,8 +74,8 @@ class UserCreate extends React.Component {
                         } />
 
         </SimpleForm>
-    </Create>
+    </Edit>
 
     )}}
 
-export default UserCreate;
+export default UserEdit;

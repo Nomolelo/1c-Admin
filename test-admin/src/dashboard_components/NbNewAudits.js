@@ -25,7 +25,7 @@ const styles = {
 };
 
 const NbNewOrders = ({ value, translate, classes }) => (
-    <Button style={{width:'300px'}} href='http://localhost:3001/#/questions_audit' >
+    <Button style={{width:'300px'}} href='#/questions_audit' >
 
     <div className={classes.main}>
         <CardIcon Icon={MyLocationIcon} bgColor="#ff9800" />

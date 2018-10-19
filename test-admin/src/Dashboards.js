@@ -18,25 +18,60 @@ const styles = {
 };
 
 
-const users = [
-    {id: 46, first_name: "Andrew", last_name: "McGeough", avatar:"https://robohash.org/07abceb5780ffcdd2e6e03daec43055d.png"},
-    
-    {id: 295, first_name: "Paul", last_name: "Griffin", avatar:"https://robohash.org/5138424bc2fc3422be7077589bba59f9.png"},
-    
-    {id: 497, first_name: "Victoria", last_name: "Nestor", avatar:"https://robohash.org/76316d6f3488c67fe74f915aee4bf326.png"},
-    
-    {id: 413, first_name: "Lee", last_name: "Dickinson", avatar:"https://robohash.org/bd9f0a5b34232b8a126282ed425c3fb8.png"},
-    
-    {id: 374, first_name: "Bradley", last_name: "Peters", avatar:"https://robohash.org/7b04144073398ce6ae48151ae4c3aa16.png"}
-    ]
+var api_host = 'http://54.72.140.182:3000'
 
-export default () => (
-    <div style={styles.flex}>
+
+class Dashboard extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            users:[],
+            audits:[],
+            questions:[]
+          }
+        }
+
+
+    componentWillMount() {
+    (async() => {
+            try {
+        var response = await fetch(api_host+'/questions_user');
+        var data = await response.json();
+        this.setState({users: data})
+
+        var response = await fetch(api_host+'/questions_audit');
+        var data = await response.json();
+        this.setState({audits: data})
+
+        var response = await fetch(api_host+'/questions_question');
+        var data = await response.json();
+        this.setState({questions: data})
+
+    }
+
+        catch (e) {
+            console.log("Booo")
+        }
+        })()
+    }
+
+// export default () => (
+    render() {
+        const {
+          props,
+        } = this;
+
+        console.log(this.state.users)
+
+
+return (
+
+   <div style={styles.flex}>
 
     <div style={styles.leftCol}>
     <div style={styles.flex}>
-        <NbNewAudits value='2' />
-        <NbNewOrders value='12' />
+        <NbNewAudits value={this.state.audits.length} />
+        <NbNewOrders value={this.state.questions.length} />
     </div>
     <div style={styles.singleCol}>
         <Welcome />
@@ -51,8 +86,8 @@ export default () => (
                 customers={pendingReviewsCustomers}
             /> */}
             <NewUsers
-                nb='1'
-                visitors={users}
+                nb={this.state.users.length}
+                visitors={this.state.users}
             />
         </div>
     </div>
@@ -64,3 +99,6 @@ export default () => (
     //     <CardContent>Lorem ipsum sic dolor amet...</CardContent>
     // </Card>
 );
+}}
+
+export default Dashboard;

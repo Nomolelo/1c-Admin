@@ -150,6 +150,20 @@ class SubChoiceQuickCreateButton extends Component {
                             { id: '6', name: 'Not-Applicable' },
                                                         ]} />
 
+                            <SelectInput source="score_text" label="score" choices={[
+                                    { id: '0', name:'0'},
+                                    { id: '0.1', name:'0.1'},
+                                    { id: '0.2', name:'0.2'},
+                                    { id: '0.3', name:'0.3'},
+                                    { id: '0.4', name:'0.4'},
+                                    { id: '0.5', name:'0.5'},
+                                    { id: '0.6', name:'0.6'},
+                                    { id: '0.7', name:'0.7'},
+                                    { id: '0.8', name:'0.8'},
+                                    { id: '0.9', name:'0.9'},
+                                    { id: '1', name:'1'}
+                                ]} />
+
                             <BooleanInput source="action" defaultValue={false} />
                             <BooleanInput source="comment" defaultValue={false} />  
 

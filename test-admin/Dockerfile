@@ -17,3 +17,7 @@ RUN npm install -g serve
 CMD serve -s build
 # Let Docker know about the port that serve runs on.
 EXPOSE 3000
+
+
+
+              

@@ -20,8 +20,9 @@ import { SubQuestionList, SubQuestionEdit, SubQuestionCreate, SubQuestionShow } 
 import { AuditList, AuditCreate } from './Audits';
 import AuditEdit from './Audits';
 
-import { UserList } from './users';
-import UserCreate from './users';
+import { UserList } from './users.js';
+import UserCreate from './users.js';
+import UserEdit from './users_edit.js'
 
 import PostIcon from '@material-ui/icons/Book';
 import UserIcon from '@material-ui/icons/People';
@@ -69,9 +70,28 @@ var api_host = 'http://54.72.140.182:3000'
 //test-admin andrewmcgeough$ docker run -it --rm -p 5000:5000 --name react-demo react-docker
 
 console.log(make_id())
+const Title = () => <span >Booh</span>;
 
-const App = () => (
-    <Admin title="First Compliance"
+
+class App extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+      }
+    }
+
+    componentDidMount(){
+        document.title = "First Compliance Admin"
+      }
+    
+render() {
+        const {
+          props,
+        } = this;
+  
+// const App = () => (
+return (
+<Admin title={<Title/>}
             // appLayout={Layout} 
             authProvider={authProvider} dashboard={Dashboard} 
             dataProvider={postgrestClient(api_host)}>
@@ -93,12 +113,14 @@ const App = () => (
         edit={SubQuestionEdit}   
         />
 
-        <Resource options={{ label: 'Users' }} name="questions_user" icon={UserIcon} list={UserList} create={UserCreate} />
+        <Resource options={{ label: 'Users' }} name="questions_user" icon={UserIcon} list={UserList} 
+                    create={UserCreate} edit={UserEdit}
+                    />
 
 
     </Admin>
 );
-
+}}
 
 
 export default App;

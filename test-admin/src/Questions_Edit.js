@@ -87,8 +87,9 @@ const QuestionShowActionsCreate = ({basePath, data  }) => (
 
 
 
-
-
+const QuestionTitle = ({ record }) => {
+    return <span>{record ? `${record.question_text}` : ''}</span>;
+};
 
 const create_redirect = (basePath, id, data) => `/questions_question`;
 var today = new Date();
@@ -126,10 +127,9 @@ class QuestionEdit extends React.Component {
       
     return (
 
-    <Edit  {...props}
+    <Edit title={<QuestionTitle/>} {...props}
     // <Edit {...props}
     actions={<QuestionShowActionsCreate />}
-    title = 'Edit Questions'
     >
         <TabbedForm defaultValue={{ created_at: Date() }}>
             <FormTab label="Question" >
@@ -156,9 +156,23 @@ class QuestionEdit extends React.Component {
                 <LongTextInput source="question_text" resettable style={{width:'50%'}}/>
                 <LongTextInput source="information" style={{width:'50%'}}/>
                 <LongTextInput source="footnote" resettable style={{width:'30%'}}/>
+                <SelectInput source="weight" choices={[
+                                    { id: 0, name:0},
+                                    { id: 1, name:1},
+                                    { id: 2, name:2},
+                                    { id: 3, name:3},
+                                    { id: 4, name:4},
+                                    { id: 5, name:5},
+                                    { id: 6, name:6},
+                                    { id: 7, name:7},
+                                    { id: 8, name:8},
+                                    { id: 9, name:9},
+                                    { id: 10, name:10}
+                                ]} />
 
                 <FileInput source="files" label="" placeholder={<p>Upload file</p>}>
                 <FileField source="src" title="title" />
+
                 </FileInput>
 
                 <BooleanInput source="thumbnail" />
@@ -210,6 +224,7 @@ class QuestionEdit extends React.Component {
 
                         <BooleanField source="action" />
                         <BooleanField source="comment" /> 
+                        <NumberField source="score" />
 
                         <ShowButton />
                         <EditButton />

@@ -7,7 +7,7 @@ import {ChipField, ReferenceManyField, ReferenceField, CommentGrid,Avatar, DateF
 
 import {SingleFieldList, ShowButton, EditButton, Edit, SimpleForm, DisabledInput, DateInput, 
         TextInput, NumberInput, SelectArrayInput, SelectInput, ReferenceInput, ReferenceArrayInput,
-        DeleteButton, SelectField     } from 'react-admin';
+        DeleteButton, SelectField, Filter     } from 'react-admin';
 import { Create} from 'react-admin';
 import { Show, SimpleShowLayout } from 'react-admin';
 import PersonIcon from '@material-ui/icons/Person';
@@ -98,13 +98,23 @@ AuditGrid.defaultProps = {
     ids: [],
 };
 
+const AuditFilter = (props) => (
+    <Filter {...props} >
+        <TextInput label="Search Audit" source="audit_name" alwaysOn />
+
+    </Filter>
+);
+
 export const AuditList = (props) => (
-    <List title="Audits" {...props}>
+    <List title="Audits" {...props} filters={<AuditFilter />}>
         <AuditGrid />
     </List>
 )
 
 
+const AuditTitle = ({ record }) => {
+    return <span>{record ? `${record.audit_name}` : ''}</span>;
+};
 
 class AuditEdit extends React.Component {
     constructor(props) {
@@ -140,7 +150,7 @@ class AuditEdit extends React.Component {
   
 return (
 
-    <Edit  {...props}>
+    <Edit  title={<AuditTitle />} {...props}>
 
 {/* // export const AuditEdit = (props) => (
 //     <Edit {...props}> */}

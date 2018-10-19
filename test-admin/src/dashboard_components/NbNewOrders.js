@@ -8,7 +8,6 @@ import { translate } from 'react-admin';
 import CardIcon from './CardIcon';
 import Button from '@material-ui/core/Button';
 
-var api_host = 'http://54.72.140.182:3000'
 
 const styles = {
     main: {
@@ -25,7 +24,7 @@ const styles = {
 };
 
 const NbNewOrders = ({ value, translate, classes }) => (
-    <Button style={{width:'400px'}} href={api_host+'/#/questions_question'} >
+    <Button style={{width:'400px'}} href={'/#/questions_question'} >
     <div className={classes.main}>
         <CardIcon Icon={QuestionAnswerIcon} bgColor="#ff9800" />
         <Card className={classes.card}>

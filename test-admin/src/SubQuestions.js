@@ -67,8 +67,14 @@ export const SubQuestionShow = (props) => (
 
 const edit_redirect = (basePath, id, data) => `/questions_question/${data.question_id}/2`;
 
+const QuestionTitle = ({ record }) => {
+    return <span>{record ? `Subquestion to "${record.question_text}"` : ''}</span>;
+};
+
 export const SubQuestionEdit = (props) => (
-    <Edit {...props}  >
+    <Edit {...props}  
+    title={<QuestionTitle/>} 
+    >
         <TabbedForm  redirect={edit_redirect}>
             <FormTab label="Sub Questions"  >
                 <DisabledInput source="id" />
@@ -84,6 +90,20 @@ export const SubQuestionEdit = (props) => (
                 <LongTextInput source="question_text" resettable style={{width:'50%'}}/>
                 <LongTextInput source="information" style={{width:'50%'}}/>
                 <LongTextInput source="footnote" resettable style={{width:'30%'}}/>
+                <SelectInput source="weight" choices={[
+                                    { id: 0, name:0},
+                                    { id: 1, name:1},
+                                    { id: 2, name:2},
+                                    { id: 3, name:3},
+                                    { id: 4, name:4},
+                                    { id: 5, name:5},
+                                    { id: 6, name:6},
+                                    { id: 7, name:7},
+                                    { id: 8, name:8},
+                                    { id: 9, name:9},
+                                    { id: 10, name:10}
+                                ]} />
+
 
                 <FileInput source="files" label="" placeholder={<p>Upload file</p>}>
                 <FileField source="src" title="title" />
@@ -176,6 +196,20 @@ console.log('lol '+question_id)
                 <SelectInput source="choice_type" />
                 <LongTextInput source="information" />
                 <RichTextInput source="footnote" />
+                <SelectInput source="weight" choices={[
+                                    { id: 0, name:0},
+                                    { id: 1, name:1},
+                                    { id: 2, name:2},
+                                    { id: 3, name:3},
+                                    { id: 4, name:4},
+                                    { id: 5, name:5},
+                                    { id: 6, name:6},
+                                    { id: 7, name:7},
+                                    { id: 8, name:8},
+                                    { id: 9, name:9},
+                                    { id: 10, name:10}
+                                ]} />
+
             {/* </FormTab> */}
 
             {/* <FormTab label="Choices"> */}

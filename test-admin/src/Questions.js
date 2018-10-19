@@ -40,10 +40,13 @@ var api_host = 'http://54.72.140.182:3000'
 
 const QuestionFilter = (props) => (
     <Filter {...props}>
-        <TextInput label="Search" source="question_text" alwaysOn />
-        <ReferenceInput label="Owner" source="id" reference="questions_question" allowEmpty>
+        <TextInput label="Search Question" source="question_text" alwaysOn />
+        <TextInput label="Search Footnote" source="footnote" alwaysOn/>
+        <TextInput source="information" allowEmpty/>
+
+        {/* <ReferenceInput label="Owner" source="id" reference="questions_question" allowEmpty>
             <SelectInput optionText="owner_email" />
-        </ReferenceInput>
+        </ReferenceInput> */}
     </Filter>
 );
 
@@ -115,9 +118,13 @@ export const QuestionList = (props) => (
     </List>
 );
 
+const QuestionTitle = ({ record }) => {
+    return <span>{record ? `${record.question_text}` : ''}</span>;
+};
+
 export const QuestionShow = (props) => (
     <Show {...props}
-    title = 'Show Questions'
+    title = {< QuestionTitle/>}
     actions={<QuestionShowActions />}
     >
         <SimpleShowLayout>
@@ -223,6 +230,20 @@ class QuestionCreate extends React.Component {
                 <LongTextInput source="question_text" resettable style={{width:'50%'}}/>
                 <LongTextInput source="information" style={{width:'50%'}}/>
                 <LongTextInput source="footnote" resettable style={{width:'30%'}}/>
+                {/* <NumberInput source="weight" step={1} defaultValue={1} max={10}/> */}
+                <SelectInput source="weight" choices={[
+                                    { id: 0, name:0},
+                                    { id: 1, name:1},
+                                    { id: 2, name:2},
+                                    { id: 3, name:3},
+                                    { id: 4, name:4},
+                                    { id: 5, name:5},
+                                    { id: 6, name:6},
+                                    { id: 7, name:7},
+                                    { id: 8, name:8},
+                                    { id: 9, name:9},
+                                    { id: 10, name:10}
+                                ]} />
 
                 <FileInput source="files" label="" placeholder={<p>Upload file</p>}>
                 <FileField source="src" title="title" />
