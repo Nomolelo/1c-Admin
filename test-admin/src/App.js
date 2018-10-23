@@ -17,8 +17,8 @@ import QuestionEdit from './Questions_Edit';
 
 import { SubQuestionList, SubQuestionEdit, SubQuestionCreate, SubQuestionShow } from './SubQuestions';
 
-import { AuditList, AuditCreate } from './Audits';
-import AuditEdit from './Audits';
+import { AuditList, AuditEdit} from './Audits';
+import AuditCreate from './Audits';
 
 import { UserList } from './users.js';
 import UserCreate from './users.js';
@@ -35,6 +35,7 @@ import AppBar from 'material-ui/AppBar';
 import * as Colors from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+// import MyLayout from './MyLayout.js';
 
 
 // var Make_ID = function () {
@@ -64,13 +65,14 @@ const muiTheme = getMuiTheme({
     },
   });
   
-var api_host = 'http://54.72.140.182:3000'
+var api_host = 'http://18.202.21.32:3000'
 // var api_host = 'http://localhost:3000'
 
 //test-admin andrewmcgeough$ docker run -it --rm -p 5000:5000 --name react-demo react-docker
 
 console.log(make_id())
 const Title = () => <span >Booh</span>;
+
 
 
 class App extends React.Component {
@@ -88,13 +90,19 @@ render() {
         const {
           props,
         } = this;
+
+        console.log("Running on port: " + process.env.npm_package_config_porttest)
+
   
 // const App = () => (
 return (
 <Admin title={<Title/>}
             // appLayout={Layout} 
             authProvider={authProvider} dashboard={Dashboard} 
-            dataProvider={postgrestClient(api_host)}>
+            dataProvider={postgrestClient(api_host)}
+            // appLayout={MyLayout}
+            // className={styles.button}
+            >
 
         <Resource  name="questions_choice"  />
         <Resource  name="questions_audit_question"  />

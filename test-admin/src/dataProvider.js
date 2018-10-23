@@ -13,7 +13,7 @@ import { stringify } from 'query-string';
 
 // const API_URL = 'http://127.0.0.1:8000/api/';
 // const API_URL = 'http://127.0.0.1:3000';
-const API_URL = 'http://54.72.140.182:3000'
+const API_URL = 'http://18.202.21.32:3000'
 
 /**
  * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'

@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import HomeIcon from '@material-ui/icons/Home';
 import CodeIcon from '@material-ui/icons/Code';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import { withStyles } from '@material-ui/core/styles';
 
 import { translate } from 'react-admin';
@@ -39,11 +40,15 @@ const Welcome = ({ classes, translate }) => (
             </Typography>
         </CardContent>
         <CardActions style={{ justifyContent: 'flex-end' }}>
-            <Button href="https://marmelab.com/react-admin">
+            <Button href="http://34.242.140.163:5000" target="_blank">
                 <HomeIcon style={{ paddingRight: '0.5em' }} />
                 End-User Portal
             </Button>
-            <Button href="https://github.com/marmelab/react-admin/tree/master/examples/demo">
+            <Button href="http://34.255.124.11:5000" target="_blank">
+                <DashboardIcon style={{ paddingRight: '0.5em' }} />
+                Dashboard
+            </Button>
+            <Button href="https://first-compliance.com" target="_blank">
                 <CodeIcon style={{ paddingRight: '0.5em' }} />
                 Help & Documentation
             </Button>

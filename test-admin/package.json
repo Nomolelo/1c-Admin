@@ -5,6 +5,9 @@
   "optionalDependencies": {
     "fsevents": "*"
   },
+
+  "config" : { "porttest" : "3000" },
+
   "dependencies": {
     "aor-postgrest-client": "^0.2.5",
     "autoprefixer": "7.1.6",

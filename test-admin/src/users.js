@@ -6,7 +6,7 @@ import { BooleanField, DateField, List, Datagrid, EmailField, TextField, ImageFi
 import Avatar from '@material-ui/core/Avatar';
 
 // { picture: { url: 'cover.jpg', title: 'Larry Cover (French pun intended)' } }
-var api_host = 'http://54.72.140.182:3000'
+var api_host = 'http://18.202.21.32:3000'
 
 const UserFilter = (props) => (
     <Filter {...props} >

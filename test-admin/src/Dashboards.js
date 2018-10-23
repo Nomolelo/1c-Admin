@@ -18,7 +18,7 @@ const styles = {
 };
 
 
-var api_host = 'http://54.72.140.182:3000'
+var api_host = 'http://18.202.21.32:3000'
 
 
 class Dashboard extends React.Component {

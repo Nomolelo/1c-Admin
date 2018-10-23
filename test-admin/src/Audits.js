@@ -23,7 +23,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import AuditQuestionLinkButton from './dashboard_components/AuditQuestionLinkButton';
 
 
-var api_host = 'http://54.72.140.182:3000'
+var api_host = 'http://18.202.21.32:3000'
 // var api_host = 'http://localhost:3000'
 
 
@@ -71,9 +71,9 @@ const AuditGrid = ({ ids, data, basePath }) => (
             title="First Compliance"
             />
 
-            <CardContent>
+            {/* <CardContent>
                 <TextField record={data[id]} source="audit_name" />
-            </CardContent>
+            </CardContent> */}
             <CardContent>
                 <TextField record={data[id]} source="description" />
                 {/* {desc[index]}&nbsp; */}
@@ -116,11 +116,11 @@ const AuditTitle = ({ record }) => {
     return <span>{record ? `${record.audit_name}` : ''}</span>;
 };
 
-class AuditEdit extends React.Component {
+class AuditCreate extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-            questions:[]
+        max_id:''
       }
     }
 
@@ -134,8 +134,12 @@ class AuditEdit extends React.Component {
                 'Access-Control-Expose-Headers': 'Content-Range'
             }});
         var data = await response.json();
-        console.log(data)
-        this.setState({questions: data})
+        var x = await data.map(text => text.id).sort()
+        var max = Math.max(...x)
+        this.setState({max_id: max})
+
+        // console.log(data)
+        // this.setState({questions: data})
     } 
     catch (e) {
         console.log("Booo")
@@ -150,41 +154,9 @@ class AuditEdit extends React.Component {
   
 return (
 
-    <Edit  title={<AuditTitle />} {...props}>
-
-{/* // export const AuditEdit = (props) => (
-//     <Edit {...props}> */}
-        <SimpleForm>
-            <DisabledInput source="id" />
-            <TextInput source="audit_name" />
-            <DateInput source="start_date" />
-            <DateInput source="end_date" />
-            <TextInput source="description" />
-            <TextInput source="owner" />
-
-            <ReferenceManyField label="" reference="questions_audit_question" source="id" target="audit_id"  >
-            <Datagrid>
-            <SelectField label="Questions" source="question_id" optionText="question_text" 
-                                                choices={this.state.questions} />
-            
-            <ShowButton />
-            </Datagrid>
-            </ReferenceManyField>
-            <AuditQuestionLinkButton/>
-
-        </SimpleForm>
-    </Edit>
-);
-}}
-export default AuditEdit;
-
-
-const create_redirect = (basePath, id, data) => `/questions_audit`;
-
-export const AuditCreate = (props) => (
     <Create {...props}>
         <SimpleForm redirect={create_redirect}>
-            <NumberInput source="id" />
+            <DisabledInput source="id" defaultValue={this.state.max_id} />
             <TextInput source="audit_name" />
             <DateInput source="start_date" />
             <DateInput source="end_date" />
@@ -198,6 +170,27 @@ export const AuditCreate = (props) => (
             </ReferenceManyField> */}
         </SimpleForm>
     </Create>
+);
+}}
+export default AuditCreate;
+
+
+const create_redirect = (basePath, id, data) => `/questions_audit`;
+
+export const AuditEdit = (props) => (
+    <Edit  title={<AuditTitle />} {...props}>
+
+        <SimpleForm>
+            <DisabledInput source="id" />
+            <TextInput source="audit_name" />
+            <DateInput source="start_date" />
+            <DateInput source="end_date" />
+            <TextInput source="description" />
+            <TextInput source="owner" />
+
+        </SimpleForm>
+    </Edit>
+
 );
 
 

@@ -78,6 +78,15 @@ export const SubQuestionEdit = (props) => (
         <TabbedForm  redirect={edit_redirect}>
             <FormTab label="Sub Questions"  >
                 <DisabledInput source="id" />
+                <SelectInput source="outcome" label='Outcome' choices={[
+                            { id: '1', name: 'Compliant' },
+                            { id: '2', name: 'Partially Compliant 75%' },
+                            { id: '3', name: 'Partially Compliant 50%' },
+                            { id: '4', name: 'Partially Compliant 25%' },
+                            { id: '5', name: 'Non-Compliant' },
+                            { id: '6', name: 'Not-Applicable' },
+                                                        ]} />
+
                 <SelectInput source="choice_type" label='Question Type' choices={[
                         { id: '1', name: 'Single Choice' },
                         { id: '2', name: 'Multiple Choice' },
@@ -136,7 +145,7 @@ export const SubQuestionEdit = (props) => (
 
                         <BooleanField source="action" />
                         <BooleanField source="comment" />  
-                        <EditButton />
+                        {/* <EditButton /> */}
                         <DeleteButton />
                     </Datagrid>
                 </ReferenceManyField>
